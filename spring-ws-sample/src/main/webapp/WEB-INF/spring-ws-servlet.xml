@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sws="http://www.springframework.org/schema/web-services"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/web-services http://www.springframework.org/schema/web-services/web-services-2.0.xsd">
+
+    <sws:annotation-driven/>
+
+    <!--
+        wsdl and xsd location will be
+            http://localhost:8080/echoService/echo.wsdl
+            http://localhost:8080/echoService/echo.xsd
+        based on the following config.
+
+        Add the following parameters to spring-ws servlet
+        int web.xml to allow using relative 'locationUri'
+        and spring will transform it dynamically to an
+        absolute uri.
+
+            <init-param>
+                <param-name>transformWsdlLocations</param-name>
+                <param-value>true</param-value>
+            </init-param>
+    -->
+    <sws:dynamic-wsdl id="echo"
+                      portTypeName="EchoPortType"
+                      locationUri="/echoService/"
+                      targetNamespace="http://hch.me/echo/definitions">
+        <sws:xsd location="/WEB-INF/echo.xsd"/>
+    </sws:dynamic-wsdl>
+</beans>
