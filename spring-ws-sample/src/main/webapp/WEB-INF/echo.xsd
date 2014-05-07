@@ -5,23 +5,18 @@
            targetNamespace="http://hch.me/echo/schemas">
 
     <xs:element name="EchoRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="Message" type="echo:MessageType"/>
-                <xs:element name="Sequence" type="echo:SequenceType"/>
-            </xs:sequence>
-        </xs:complexType>
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:pattern value="\w{1,20}"/>
+            </xs:restriction>
+        </xs:simpleType>
     </xs:element>
 
-    <xs:simpleType name="MessageType">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[a-zA-Z]{1,20}"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="SequenceType">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9]+"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <xs:element name="EchoResponse">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:pattern value="\w{1,20}"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
 </xs:schema>

@@ -34,10 +34,5 @@
             <artifactId>spring-ws-core</artifactId>
             <version>2.1.4.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 </project>
