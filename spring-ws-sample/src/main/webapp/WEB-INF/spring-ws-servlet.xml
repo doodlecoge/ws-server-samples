@@ -2,10 +2,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:sws="http://www.springframework.org/schema/web-services"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/web-services http://www.springframework.org/schema/web-services/web-services-2.0.xsd">
+       http://www.springframework.org/schema/web-services http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <sws:annotation-driven/>
+
+    <!--
+        if not set endpoint will not be mapped, and you would
+        receive 404 not found error when invoking client.
+    -->
+    <context:component-scan base-package="me.hch"/>
 
     <!--
         wsdl and xsd location will be
@@ -29,4 +37,22 @@
                       targetNamespace="http://hch.me/echo/definitions">
         <sws:xsd location="/WEB-INF/echo.xsd"/>
     </sws:dynamic-wsdl>
+
+
+    <sws:interceptors>
+        <bean class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
+            <description>
+                This interceptor validates both incoming and outgoing message contents
+                according to the 'echo.xsd' XML Schema file.
+            </description>
+            <property name="schema" value="/WEB-INF/echo.xsd"/>
+            <property name="validateRequest" value="true"/>
+            <property name="validateResponse" value="true"/>
+        </bean>
+        <bean class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor">
+            <description>
+                This interceptor logs the message payload.
+            </description>
+        </bean>
+    </sws:interceptors>
 </beans>
