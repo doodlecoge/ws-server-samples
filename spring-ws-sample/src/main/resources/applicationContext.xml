@@ -2,8 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--
+        Todo: explain the following
+
+        the "defaultUri" seemed is not restrict strictly,
+        it can be an invalid Url as long as the domain
+         and port is the same as the server.
+    -->
     <bean id="echoClient" class="me.hch.EchoClient">
-        <property name="defaultUri" value="http://localhost:8080"/>
+        <property name="defaultUri" value="http://localhost:8080/aaa"/>
         <property name="request" value="classpath:echoRequest.xml"/>
     </bean>
 
