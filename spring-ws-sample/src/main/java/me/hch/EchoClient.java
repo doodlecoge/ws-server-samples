@@ -2,11 +2,20 @@ package me.hch;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.xml.transform.ResourceSource;
 import org.springframework.xml.transform.StringResult;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import java.io.IOException;
 
@@ -29,10 +38,29 @@ public class EchoClient extends WebServiceGatewaySupport {
         System.out.println();
     }
 
-    public static void main(String[] args) throws IOException {
-        ApplicationContext applicationContext =
-                new ClassPathXmlApplicationContext("/applicationContext.xml", EchoClient.class);
+    public static void main(String[] args) throws IOException, ParserConfigurationException {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext.xml", EchoClient.class);
         EchoClient echoClient = (EchoClient) applicationContext.getBean("echoClient");
         echoClient.echo();
+
+
+        try {
+            echoClient.setRequest(makeRequest("123"));
+            echoClient.echo();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        try {
+            echoClient.setRequest(makeRequest("abc"));
+            echoClient.echo();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public static ByteArrayResource makeRequest(String msg) throws ParserConfigurationException {
+        String result = "<EchoRequest xmlns=\"http://hch.me/echo/schemas\">" + msg + "</EchoRequest>";
+        return new ByteArrayResource(result.getBytes());
     }
 }
