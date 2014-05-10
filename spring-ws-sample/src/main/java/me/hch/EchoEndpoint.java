@@ -36,6 +36,8 @@ public class EchoEndpoint {
             localPart = ECHO_REQUEST
     )
     @ResponsePayload
+    // not like said in the document, String payload not work here.
+    // the client would complain No Adapter... like error
     public Element handleEchoRequest(@RequestPayload Element request) throws ParserConfigurationException, EchoException {
         String result = echoService.echo(request.getTextContent());
 
